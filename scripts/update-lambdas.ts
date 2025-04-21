@@ -28,7 +28,6 @@ function buildProject() {
   console.log('Building project...');
   execSync('npm run build', { stdio: 'inherit' });
 }
-
 function updateLambda(lambdaName: string) {
   console.log(`Updating Lambda: ${lambdaName}`);
   execSync(`npx cdk deploy --require-approval never --no-notices --all --app "npx ts-node bin/lambda.ts"`, { stdio: 'inherit' });

@@ -9,6 +9,8 @@ on:
       - 'cdk.json'
       - 'package.json'
       - 'package-lock.json'
+    paths-ignore:
+      - 'lambdas/**'
   pull_request:
     branches: [ main ]
     paths:
@@ -17,6 +19,8 @@ on:
       - 'cdk.json'
       - 'package.json'
       - 'package-lock.json'
+    paths-ignore:
+      - 'lambdas/**'
 
 env:
   AWS_REGION: us-east-1
@@ -69,4 +73,4 @@ jobs:
       - name: Deploy CDK stack
         run: |
           npm run build
-          npx cdk deploy --require-approval never --no-notices
+          npx cdk deploy --require-approval never --no-notices --all --app "npx ts-node bin/lambda.ts"
