@@ -1,47 +1,52 @@
 import { execSync } from 'child_process';
-import { readdirSync } from 'fs';
-import { join } from 'path';
-
-const LAMBDAS_DIR = join(__dirname, '../lambdas');
+import * as fs from 'fs';
+import * as path from 'path';
 
 function getChangedLambdas(): string[] {
-  // Obtener la lista de Lambdas modificadas en el último commit
-  const result = execSync('git diff --name-only HEAD~1 HEAD').toString();
-  const changedFiles = result.split('\n');
+  const output = execSync('git diff --name-only HEAD~1').toString();
+  const changedFiles = output.split('\n').filter(Boolean);
   
-  return changedFiles
-    .filter(file => file.startsWith('lambdas/'))
-    .map(file => {
-      const parts = file.split('/');
-      return parts[1]; // Retorna el nombre de la Lambda (auth, products, etc.)
-    })
-    .filter((value, index, self) => self.indexOf(value) === index); // Eliminar duplicados
+  const lambdaDirs = new Set<string>();
+  changedFiles.forEach(file => {
+    if (file.startsWith('lambdas/')) {
+      const dir = file.split('/')[1];
+      if (dir) lambdaDirs.add(dir);
+    }
+  });
+  
+  return Array.from(lambdaDirs);
 }
 
-async function updateLambdas() {
-  try {
-    const changedLambdas = getChangedLambdas();
-    
-    if (changedLambdas.length === 0) {
-      console.log('No hay Lambdas modificadas para actualizar');
-      return;
-    }
+function buildProject() {
+  console.log('Building project...');
+  execSync('npm run build', { stdio: 'inherit' });
+}
 
-    console.log('Lambdas a actualizar:', changedLambdas);
+function updateLambda(lambdaName: string) {
+  console.log(`Updating Lambda: ${lambdaName}`);
+  execSync(`npx cdk deploy --require-approval never --exclusively ${lambdaName}`, { stdio: 'inherit' });
+}
 
-    // Construir el proyecto
-    execSync('npm run build', { stdio: 'inherit' });
-
-    // Actualizar cada Lambda usando CDK
-    for (const lambda of changedLambdas) {
-      console.log(`Actualizando Lambda: ${lambda}`);
-      execSync(`npx cdk deploy --require-approval never --exclusively LambdaStack-${lambda}`, { stdio: 'inherit' });
-    }
-
-  } catch (error) {
-    console.error('Error al actualizar las Lambdas:', error);
-    process.exit(1);
+function main() {
+  const changedLambdas = getChangedLambdas();
+  
+  if (changedLambdas.length === 0) {
+    console.log('No Lambda functions changed in the last commit');
+    return;
+  }
+  
+  buildProject();
+  
+  changedLambdas.forEach(lambda => {
+    updateLambda(lambda);
+  });
+  
+  // Write output to file for GitHub Actions
+  const outputFile = process.env.GITHUB_OUTPUT;
+  if (outputFile) {
+    const output = `updated_lambdas=${changedLambdas.join(',')}`;
+    fs.writeFileSync(outputFile, output);
   }
 }
 
-updateLambdas(); 
+main(); 

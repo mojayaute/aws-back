@@ -63,4 +63,6 @@ jobs:
           aws-region: ${{ env.AWS_REGION }}
           
       - name: Update Lambdas
-        run: npx ts-node scripts/update-lambdas.ts 
+        run: npx ts-node scripts/update-lambdas.ts
+        env:
+          GITHUB_OUTPUT: ${{ github.workspace }}/output.txt 
