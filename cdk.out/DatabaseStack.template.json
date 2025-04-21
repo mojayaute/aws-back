@@ -1,0 +1,153 @@
+{
+ "Resources": {
+  "ProductsTable241ADBFF": {
+   "Type": "AWS::DynamoDB::Table",
+   "Properties": {
+    "AttributeDefinitions": [
+     {
+      "AttributeName": "id",
+      "AttributeType": "S"
+     },
+     {
+      "AttributeName": "ownerId",
+      "AttributeType": "S"
+     }
+    ],
+    "BillingMode": "PAY_PER_REQUEST",
+    "GlobalSecondaryIndexes": [
+     {
+      "IndexName": "ownerId-index",
+      "KeySchema": [
+       {
+        "AttributeName": "ownerId",
+        "KeyType": "HASH"
+       }
+      ],
+      "Projection": {
+       "ProjectionType": "ALL"
+      }
+     }
+    ],
+    "KeySchema": [
+     {
+      "AttributeName": "id",
+      "KeyType": "HASH"
+     }
+    ],
+    "TableName": "app-products"
+   },
+   "UpdateReplacePolicy": "Delete",
+   "DeletionPolicy": "Delete",
+   "Metadata": {
+    "aws:cdk:path": "DatabaseStack/ProductsTable/Resource"
+   }
+  },
+  "OrdersTable315BB997": {
+   "Type": "AWS::DynamoDB::Table",
+   "Properties": {
+    "AttributeDefinitions": [
+     {
+      "AttributeName": "id",
+      "AttributeType": "S"
+     }
+    ],
+    "BillingMode": "PAY_PER_REQUEST",
+    "KeySchema": [
+     {
+      "AttributeName": "id",
+      "KeyType": "HASH"
+     }
+    ],
+    "TableName": "app-orders"
+   },
+   "UpdateReplacePolicy": "Delete",
+   "DeletionPolicy": "Delete",
+   "Metadata": {
+    "aws:cdk:path": "DatabaseStack/OrdersTable/Resource"
+   }
+  },
+  "CDKMetadata": {
+   "Type": "AWS::CDK::Metadata",
+   "Properties": {
+    "Analytics": "v2:deflate64:H4sIAAAAAAAA/71RwU7DMAz9Fnyc0jDGAdHbhCqEGKi05YCmqUoTg9KlSZVkg6jqv5NsB867cLL1/Pz8bK/ozf2SLq/Yt8u42GdKdnSqPeN7EqFWBM0GIyLWsE7hdgKf4isbEHJYAIGRWS+9NPoZA+QT6L+SD2NKa5gJdFIpqb9ejEhQuf5oy6Jqq+LtvaibyLU4mCNTpVGSRx0Q6Lw1IbZOwIR4VKZjqkZutGA2PGmBP5BHOzJll9sZremRJ15zRtebDcy7NO2/F9yRh099uu5MKnTmYDluT/ILiIZ0FKS9uz6ubuldfFTvpMzsQXs5IK3O8RclaVIfxQEAAA=="
+   },
+   "Metadata": {
+    "aws:cdk:path": "DatabaseStack/CDKMetadata/Default"
+   }
+  }
+ },
+ "Outputs": {
+  "ExportsOutputFnGetAttProductsTable241ADBFFArn55D06E2D": {
+   "Value": {
+    "Fn::GetAtt": [
+     "ProductsTable241ADBFF",
+     "Arn"
+    ]
+   },
+   "Export": {
+    "Name": "DatabaseStack:ExportsOutputFnGetAttProductsTable241ADBFFArn55D06E2D"
+   }
+  },
+  "ExportsOutputFnGetAttOrdersTable315BB997ArnB3A07C42": {
+   "Value": {
+    "Fn::GetAtt": [
+     "OrdersTable315BB997",
+     "Arn"
+    ]
+   },
+   "Export": {
+    "Name": "DatabaseStack:ExportsOutputFnGetAttOrdersTable315BB997ArnB3A07C42"
+   }
+  },
+  "ExportsOutputRefProductsTable241ADBFF4DFBD40D": {
+   "Value": {
+    "Ref": "ProductsTable241ADBFF"
+   },
+   "Export": {
+    "Name": "DatabaseStack:ExportsOutputRefProductsTable241ADBFF4DFBD40D"
+   }
+  },
+  "ExportsOutputRefOrdersTable315BB997F7C1D27E": {
+   "Value": {
+    "Ref": "OrdersTable315BB997"
+   },
+   "Export": {
+    "Name": "DatabaseStack:ExportsOutputRefOrdersTable315BB997F7C1D27E"
+   }
+  }
+ },
+ "Parameters": {
+  "BootstrapVersion": {
+   "Type": "AWS::SSM::Parameter::Value<String>",
+   "Default": "/cdk-bootstrap/hnb659fds/version",
+   "Description": "Version of the CDK Bootstrap resources in this environment, automatically retrieved from SSM Parameter Store. [cdk:skip]"
+  }
+ },
+ "Rules": {
+  "CheckBootstrapVersion": {
+   "Assertions": [
+    {
+     "Assert": {
+      "Fn::Not": [
+       {
+        "Fn::Contains": [
+         [
+          "1",
+          "2",
+          "3",
+          "4",
+          "5"
+         ],
+         {
+          "Ref": "BootstrapVersion"
+         }
+        ]
+       }
+      ]
+     },
+     "AssertDescription": "CDK bootstrap stack version 6 required. Please run 'cdk bootstrap' with a recent version of the CDK CLI."
+    }
+   ]
+  }
+ }
+}

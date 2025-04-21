@@ -1,0 +1,36 @@
+{
+  "version": "41.0.0",
+  "files": {
+    "faa95a81ae7d7373f3e1f242268f904eb748d8d0fdd306e8a6fe515a1905a7d6": {
+      "displayName": "StorageStack/Custom::S3AutoDeleteObjectsCustomResourceProvider Code",
+      "source": {
+        "path": "asset.faa95a81ae7d7373f3e1f242268f904eb748d8d0fdd306e8a6fe515a1905a7d6",
+        "packaging": "zip"
+      },
+      "destinations": {
+        "570013956457-us-east-1": {
+          "bucketName": "cdk-hnb659fds-assets-570013956457-us-east-1",
+          "objectKey": "faa95a81ae7d7373f3e1f242268f904eb748d8d0fdd306e8a6fe515a1905a7d6.zip",
+          "region": "us-east-1",
+          "assumeRoleArn": "arn:${AWS::Partition}:iam::570013956457:role/cdk-hnb659fds-file-publishing-role-570013956457-us-east-1"
+        }
+      }
+    },
+    "0fed662f02bf3e019ebe9650a74d2d224713cd995d463a3eedca7415b1438366": {
+      "displayName": "StorageStack Template",
+      "source": {
+        "path": "StorageStack.template.json",
+        "packaging": "file"
+      },
+      "destinations": {
+        "570013956457-us-east-1": {
+          "bucketName": "cdk-hnb659fds-assets-570013956457-us-east-1",
+          "objectKey": "0fed662f02bf3e019ebe9650a74d2d224713cd995d463a3eedca7415b1438366.json",
+          "region": "us-east-1",
+          "assumeRoleArn": "arn:${AWS::Partition}:iam::570013956457:role/cdk-hnb659fds-file-publishing-role-570013956457-us-east-1"
+        }
+      }
+    }
+  },
+  "dockerImages": {}
+}
