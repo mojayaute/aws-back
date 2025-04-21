@@ -23,7 +23,6 @@ function getChangedLambdas(): string[] {
     return ['auth', 'products', 'orders']; // Ajusta esto según tus Lambdas
   }
 }
-
 function buildProject() {
   console.log('Building project...');
   execSync('npm run build', { stdio: 'inherit' });
