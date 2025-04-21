@@ -10,7 +10,6 @@ const env = {
   account: process.env.CDK_DEFAULT_ACCOUNT,
   region: process.env.CDK_DEFAULT_REGION,
 };
-
 // Stack de autenticación
 const authStack = new AuthStack(app, 'AuthStack', { env });
 

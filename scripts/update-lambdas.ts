@@ -29,12 +29,11 @@ function buildProject() {
   execSync('npm run build', { stdio: 'inherit' });
 }
 
-
 function updateLambda(lambdaName: string) {
   console.log(`Updating Lambda: ${lambdaName}`);
-  execSync(`npx cdk deploy --require-approval never --no-notices --app "npx ts-node bin/lambda.ts"`, { stdio: 'inherit' });
+  // Solo actualizar ApiStack ya que es el que contiene las funciones Lambda
+  execSync(`npx cdk deploy --require-approval never --no-notices --exclusively ApiStack --app "npx ts-node bin/lambda.ts"`, { stdio: 'inherit' });
 }
-
 
 function main() {
   const changedLambdas = getChangedLambdas();
