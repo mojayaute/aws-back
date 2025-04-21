@@ -9,8 +9,6 @@ on:
       - 'cdk.json'
       - 'package.json'
       - 'package-lock.json'
-    paths-ignore:
-      - 'lambdas/**'
   pull_request:
     branches: [ main ]
     paths:
@@ -19,8 +17,6 @@ on:
       - 'cdk.json'
       - 'package.json'
       - 'package-lock.json'
-    paths-ignore:
-      - 'lambdas/**'
 
 env:
   AWS_REGION: us-east-1
