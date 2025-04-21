@@ -12,7 +12,6 @@ const env = {
 };
 // Stack de autenticación
 const authStack = new AuthStack(app, 'AuthStack', { env });
-
 // Stack de base de datos
 const dbStack = new DatabaseStack(app, 'DatabaseStack', { env });
 

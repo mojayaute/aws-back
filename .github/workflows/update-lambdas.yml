@@ -63,6 +63,6 @@ jobs:
           aws-region: ${{ env.AWS_REGION }}
           
       - name: Update Lambdas
-        run: npx ts-node scripts/update-lambdas.ts
-        env:
-          GITHUB_OUTPUT: ${{ github.workspace }}/output.txt 
+        run: |
+          npm run build
+          npx cdk deploy --require-approval never --no-notices --exclusively ApiStack --app "npx ts-node --prefer-ts-exts cdk/bin/deploy.ts" 

@@ -9,7 +9,7 @@ import {
   } from 'aws-lambda';
   
   const client = new CognitoIdentityProviderClient({});
-  
+
   export const handler = async (
     event: APIGatewayProxyEvent
   ): Promise<APIGatewayProxyResult> => {
