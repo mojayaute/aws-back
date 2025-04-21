@@ -24,6 +24,7 @@ const storageStack = new StorageStack(app, 'StorageStack', {
   authenticatedRole: authStack.authenticatedRole,
 });
 
+
 // Stack de API
 new ApiStack(app, 'ApiStack', {
   env,
