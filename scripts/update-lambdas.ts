@@ -24,7 +24,7 @@ function buildProject() {
 
 function updateLambda(lambdaName: string) {
   console.log(`Updating Lambda: ${lambdaName}`);
-  execSync(`npx cdk deploy --require-approval never --exclusively LambdaStack-${lambdaName} --app "npx ts-node bin/lambda.ts"`, { stdio: 'inherit' });
+  execSync(`npx cdk deploy --require-approval never --exclusively ApiStack --app "npx ts-node bin/lambda.ts"`, { stdio: 'inherit' });
 }
 
 function main() {
