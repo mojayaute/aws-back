@@ -34,6 +34,7 @@ function updateLambda(lambdaName: string) {
   execSync(`npx cdk deploy --require-approval never --no-notices --app "npx ts-node bin/lambda.ts"`, { stdio: 'inherit' });
 }
 
+
 function main() {
   const changedLambdas = getChangedLambdas();
   
