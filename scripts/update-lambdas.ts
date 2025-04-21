@@ -3,18 +3,25 @@ import * as fs from 'fs';
 import * as path from 'path';
 
 function getChangedLambdas(): string[] {
-  const output = execSync('git diff --name-only HEAD~1').toString();
-  const changedFiles = output.split('\n').filter(Boolean);
-  
-  const lambdaDirs = new Set<string>();
-  changedFiles.forEach(file => {
-    if (file.startsWith('lambdas/')) {
-      const dir = file.split('/')[1];
-      if (dir) lambdaDirs.add(dir);
-    }
-  });
-  
-  return Array.from(lambdaDirs);
+  try {
+    // Intentar obtener los cambios del último commit
+    const output = execSync('git diff --name-only HEAD~1').toString();
+    const changedFiles = output.split('\n').filter(Boolean);
+    
+    const lambdaDirs = new Set<string>();
+    changedFiles.forEach(file => {
+      if (file.startsWith('lambdas/')) {
+        const dir = file.split('/')[1];
+        if (dir) lambdaDirs.add(dir);
+      }
+    });
+    
+    return Array.from(lambdaDirs);
+  } catch (error) {
+    // Si hay un error (probablemente porque es el primer commit), retornar todas las Lambdas
+    console.log('No se pudo obtener los cambios del último commit, actualizando todas las Lambdas');
+    return ['auth', 'products', 'orders']; // Ajusta esto según tus Lambdas
+  }
 }
 
 function buildProject() {
@@ -24,14 +31,14 @@ function buildProject() {
 
 function updateLambda(lambdaName: string) {
   console.log(`Updating Lambda: ${lambdaName}`);
-  execSync(`npx cdk deploy --require-approval never --app --no-notices "npx ts-node bin/lambda.ts"`, { stdio: 'inherit' });
+  execSync(`npx cdk deploy --require-approval never --no-notices --app "npx ts-node bin/lambda.ts"`, { stdio: 'inherit' });
 }
 
 function main() {
   const changedLambdas = getChangedLambdas();
   
   if (changedLambdas.length === 0) {
-    console.log('No Lambda functions changed in the last commit');
+    console.log('No Lambda functions to update');
     return;
   }
   
@@ -48,4 +55,5 @@ function main() {
     fs.writeFileSync(outputFile, output);
   }
 }
+
 main(); 
