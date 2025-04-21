@@ -24,7 +24,7 @@ function buildProject() {
 
 function updateLambda(lambdaName: string) {
   console.log(`Updating Lambda: ${lambdaName}`);
-  execSync(`npx cdk deploy --require-approval never --no-notices --app "npx ts-node bin/lambda.ts"`, { stdio: 'inherit' });
+  execSync(`npx cdk deploy --require-approval never --app --no-notices "npx ts-node bin/lambda.ts"`, { stdio: 'inherit' });
 }
 
 function main() {
@@ -48,5 +48,4 @@ function main() {
     fs.writeFileSync(outputFile, output);
   }
 }
-
 main(); 

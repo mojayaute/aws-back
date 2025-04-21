@@ -11,12 +11,12 @@ const env = {
   region: process.env.CDK_DEFAULT_REGION,
 };
 
-
 // Stack de autenticación
 const authStack = new AuthStack(app, 'AuthStack', { env });
 
 // Stack de base de datos
 const dbStack = new DatabaseStack(app, 'DatabaseStack', { env });
+
 
 // Stack de almacenamiento
 const storageStack = new StorageStack(app, 'StorageStack', {
